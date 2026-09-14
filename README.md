@@ -107,6 +107,8 @@ Then open the notebooks in the notebooks directory using Jupyter.
 
 This repository is designed to generate and compare model experiments. The experiment scores are written to `experiments/results.csv`, and the project output directory also includes a lightweight comparison artifact in `outputs/model_comparison.csv`, sample predictions in `outputs/predictions/predictions.csv`, and figure artifacts such as `outputs/figures/target_distribution.png` and `outputs/figures/confusion_matrix.png`.
 
+The repository is ready for a GitHub portfolio review. A local run of `python -m src.pipeline --generate` regenerates the synthetic dataset, writes the comparison table, and refreshes the requested output artifacts in the expected folders.
+
 ## Data Leakage Findings
 
 The project is designed to demonstrate a direct leakage scenario where future-derived values such as trend_direction, trend_pct, future_clicks, and future_position are associated with the target label. These fields must be removed from the feature matrix. After removal, model behavior becomes a more honest estimate of predictive value.

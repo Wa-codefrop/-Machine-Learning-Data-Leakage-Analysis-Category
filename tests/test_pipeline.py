@@ -1,8 +1,5 @@
 """Smoke tests for the FlyRank AI synthetic data workflow."""
 
-from pathlib import Path
-
-import matplotlib
 import pandas as pd
 
 from src.data.generate_dataset import generate_dataset

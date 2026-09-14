@@ -37,7 +37,7 @@ def generate_results_table(df: pd.DataFrame) -> pd.DataFrame:
 
     for feature_set_name, table in [("leaky", leaky), ("safe", safe)]:
         # Time-aware split from published_date. Keep a deterministic split.
-        train_df, val_df, test_df = time_aware_split(table, date_col="published_date")
+        train_df, _, test_df = time_aware_split(table, date_col="published_date")
 
         # Use the same baseline model family for both experiments.
         X_train = train_df.drop(columns=["is_declining_label"])

@@ -95,6 +95,19 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Reproduce the Project
+
+```bash
+python -m pytest -q
+python -m src.pipeline --generate
+```
+
+This regenerates the synthetic dataset, writes the comparison row table, and refreshes the output artifacts in `outputs/` and `experiments/`.
+
+## CI
+
+![Python Tests](https://github.com/Wa-codefrop/-Machine-Learning-Data-Leakage-Analysis-Category/actions/workflows/python-tests.yml/badge.svg)
+
 ## Usage
 
 ```bash

@@ -35,6 +35,10 @@ def generate_dataset(n_records: int = 12000, output_path: str | None = None) -> 
 
     # Content dimensions
     n = int(n_records)
+    # A timeline column supports time-aware train/validation/test splits.
+    start_date = pd.Timestamp("2023-01-01")
+    published_date = pd.to_datetime([start_date + pd.Timedelta(days=int(x)) for x in rng.integers(0, 730, size=n)])
+
     content_id = [f"CF-{i:06d}" for i in range(n)]
     content_type = rng.choice(CATEGORICAL_TYPES, size=n)
     category = rng.choice(CATEGORIES, size=n)
@@ -107,6 +111,7 @@ def generate_dataset(n_records: int = 12000, output_path: str | None = None) -> 
 
     df = pd.DataFrame(
         {
+            "published_date": published_date,
             "content_id": content_id,
             "content_type": content_type,
             "category": category,

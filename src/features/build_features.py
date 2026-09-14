@@ -38,6 +38,9 @@ FEATURE_WINDOW_COLUMNS = [
 def build_feature_matrix(df: pd.DataFrame, leaked: bool = False) -> pd.DataFrame:
     """Return the candidate feature set for a given experiment.
 
+    The published_date field is preserved because a valid time-aware split is
+    central to the project’s experiment design.
+
     Args:
         df: Input dataframe.
         leaked: When True, include the known future-derived leakage columns.
@@ -45,7 +48,7 @@ def build_feature_matrix(df: pd.DataFrame, leaked: bool = False) -> pd.DataFrame
     Returns:
         A DataFrame containing the feature columns and the target.
     """
-    features = list(FEATURE_WINDOW_COLUMNS)
+    features = ["published_date"] + list(FEATURE_WINDOW_COLUMNS)
     if leaked:
         features.extend(["trend_direction", "trend_pct", "future_clicks", "future_position"])
 

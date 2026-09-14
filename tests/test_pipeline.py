@@ -14,6 +14,7 @@ def test_generate_dataset_creates_expected_columns(tmp_path):
 
     assert out.exists()
     assert len(df) == 50
+    assert "published_date" in df.columns
     assert "content_id" in df.columns
     assert "is_declining_label" in df.columns
     assert set(["trend_direction", "trend_pct", "future_clicks", "future_position"]).issubset(set(df.columns))

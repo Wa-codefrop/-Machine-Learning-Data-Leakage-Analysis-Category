@@ -2,10 +2,18 @@
 
 from pathlib import Path
 
+import matplotlib
+import pandas as pd
+
 from src.data.generate_dataset import generate_dataset
 from src.data.load_data import load_data
 from src.features.build_features import build_feature_matrix
 from src.evaluation.metrics import compute_classification_metrics, precision_at_50
+from src.pipeline import (
+    write_confusion_matrix_plot,
+    write_prediction_sample_artifact,
+    write_target_distribution_plot,
+)
 
 
 def test_generate_dataset_creates_expected_columns(tmp_path):
@@ -31,6 +39,42 @@ def test_feature_builder_removes_leakage_by_default(tmp_path):
     assert "future_clicks" not in leak_free.columns
     assert "future_position" not in leak_free.columns
     assert "is_declining_label" in leak_free.columns
+
+
+def test_write_target_distribution_plot_creates_real_png(tmp_path):
+    out = tmp_path / "synthetic.csv"
+    df = generate_dataset(n_records=80, output_path=out)
+    plot_path = tmp_path / "target_distribution.png"
+
+    write_target_distribution_plot(df, plot_path)
+
+    assert plot_path.exists()
+    assert plot_path.stat().st_size > 1000
+
+
+def test_write_prediction_sample_artifact_creates_real_rows(tmp_path):
+    out = tmp_path / "synthetic.csv"
+    df = generate_dataset(n_records=80, output_path=out)
+    artifact_path = tmp_path / "predictions.csv"
+
+    write_prediction_sample_artifact(df, artifact_path, n_rows=3)
+
+    assert artifact_path.exists()
+    lines = artifact_path.read_text().strip().splitlines()
+    assert len(lines) >= 4
+    assert "content_id" in lines[0]
+    assert "predicted_declining" in lines[0]
+
+
+def test_write_confusion_matrix_plot_creates_real_png(tmp_path):
+    y_true = pd.Series([0, 1, 0, 1])
+    y_pred = pd.Series([0, 1, 1, 1])
+    plot_path = tmp_path / "confusion_matrix.png"
+
+    write_confusion_matrix_plot(y_true, y_pred, plot_path)
+
+    assert plot_path.exists()
+    assert plot_path.stat().st_size > 1000
 
 
 def test_metrics_are_computable_on_small_labels():

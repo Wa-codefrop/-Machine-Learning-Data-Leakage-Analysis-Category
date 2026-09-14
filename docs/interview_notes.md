@@ -18,7 +18,7 @@ The dataset includes fields such as trend_direction, trend_pct, future_clicks, a
 
 ## 5. How was leakage detected?
 
-By comparing a leaky model where future-derived fields were included with a leakage-free model where those fields were removed. The leaky experiment usually produces very high performance and suspiciously strong feature importance.
+By comparing a leaky model where future-derived fields were included with a leakage-free model where those fields were removed. The leaky experiment usually produces very high performance and suspiciously strong feature importance. The repository also records this in the generated artifact files and model comparison table, and the project publishes a target distribution figure and confusion matrix figure for the reader.
 
 ## 6. How was leakage fixed?
 

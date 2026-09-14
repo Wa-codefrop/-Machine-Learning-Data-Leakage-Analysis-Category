@@ -105,7 +105,7 @@ Then open the notebooks in the notebooks directory using Jupyter.
 
 ## Results
 
-This repository is designed to generate and compare model experiments. The experiment scores are written to `experiments/results.csv`.
+This repository is designed to generate and compare model experiments. The experiment scores are written to `experiments/results.csv`, and the project output directory also includes a lightweight comparison artifact in `outputs/model_comparison.csv`, sample predictions in `outputs/predictions/predictions.csv`, and figure artifacts such as `outputs/figures/target_distribution.png` and `outputs/figures/confusion_matrix.png`.
 
 ## Data Leakage Findings
 

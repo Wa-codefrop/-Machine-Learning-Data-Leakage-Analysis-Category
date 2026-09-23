@@ -13,6 +13,19 @@ This project explores:
 - leakage-sensitive feature design
 - honest interpretation of what can and cannot be predicted from the dataset
 
+## At a glance
+
+This project is intentionally designed to show both the valid and invalid ways of modeling SEO performance. The real-data comparison below comes from the leakage audit flow in the notebooks and demonstrates why feature validity matters.
+
+| Feature set | Model | F1 | ROC-AUC |
+| --- | --- | ---: | ---: |
+| Safe | Logistic Regression | 0.9724 | 0.9997 |
+| Safe | Random Forest | 1.0000 | 1.0000 |
+| Leaky | Logistic Regression | 0.3566 | 0.5240 |
+| Leaky | Random Forest | 0.0000 | 0.5097 |
+
+The leaky configuration is included to illustrate how outcome-adjacent or future-window features can distort performance. The safe configuration is the honest estimate of the model's real predictive value on the UrbanScape dataset.
+
 ## Dataset
 
 The active project uses the real UrbanScape Apparel SEO Performance dataset stored under the raw data directory. This is a publicly available SEO dataset used as a realistic benchmark for portfolio work.

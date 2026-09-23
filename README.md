@@ -1,69 +1,59 @@
-# FlyRank AI — Machine Learning & Data Leakage Analysis
+# FlyRank AI — Real SEO Performance Analysis and Data Leakage Review
 
-A synthetic, internship-style machine learning project that demonstrates a realistic SEO and content performance classification workflow with an emphasis on time-aware feature separation and data leakage detection.
+This project is a realistic machine learning and data-leakage portfolio exercise centered on a real SEO performance dataset: UrbanScape Apparel SEO Performance. The goal is not to build a production-grade SEO engine. The goal is to demonstrate disciplined ML reasoning: understand the data first, choose valid targets, engineer features carefully, compare models honestly, and explain where leakage can distort performance.
 
-## Project Overview
+## Project purpose
 
-This project demonstrates a machine learning workflow for identifying SEO/content records that may be experiencing declining performance. It focuses not only on model performance but also on detecting data leakage and making sure that the model uses only information available at prediction time.
+The core learning objective is to show that a model is only as credible as its target definition and feature set. In this repository, the dataset is treated as the source of truth. We do not force a synthetic decline-label task onto real data. Instead, we work with what the data can legitimately support.
 
-## Problem
+This project explores:
+- SEO traffic and ranking behavior
+- feature groups such as technical SEO, content, conversion, and acquisition signals
+- time-aware model evaluation
+- leakage-sensitive feature design
+- honest interpretation of what can and cannot be predicted from the dataset
 
-Many content and SEO teams need early signals to identify pages that are starting to lose performance. However, a model that uses future information can create misleadingly high performance and produce a false sense of success. This project demonstrates that problem and shows how to test for it.
+## Dataset
 
-## Solution
+The active project uses the real UrbanScape Apparel SEO Performance dataset stored under the raw data directory. This is a publicly available SEO dataset used as a realistic benchmark for portfolio work.
 
-The project generates a synthetic SEO/content performance dataset, builds a feature window, performs baseline modeling with a rule-based approach, Logistic Regression, and Random Forest, then compares a leakage-prone experiment with a leakage-free experiment.
+Important note:
+- The dataset is not a repeated-entity panel with one row per content item over many time points.
+- It is real-world SEO data and does not naturally define a clean decline-detection target in the way a synthetic leakage project often does.
+- Because of that, the project makes an honest decision: define valid prediction tasks from the real data, rather than inventing a synthetic target structure.
 
-## Key Learning
+## Why this project matters
 
-The main lesson is that high model performance does not automatically mean a valid model. If a feature represents a future outcome or label window, it must not be allowed into the prediction-time feature set.
+A model can look excellent if it uses leakage. In SEO settings, this often happens when features are derived from the same business window as the outcome, or when the data structure implicitly encodes the label. This project demonstrates that idea clearly by comparing:
 
-## Architecture
+- a leakage-safe feature set
+- a leakage-prone feature set that exaggerates performance
 
-```text
-Synthetic SEO Dataset
-        ↓
-Data Validation
-        ↓
-Feature Engineering
-        ↓
-Time-Aware Split
-        ↓
-Baseline Models
-        ↓
-Leakage Investigation
-        ↓
-Leakage-Free Model
-        ↓
-Evaluation
-        ↓
-Results
-```
+The point is not to reward the leaky model. The point is to show why feature validity and temporal logic are essential.
 
-## Technologies
+## Valid ML tasks supported by this dataset
 
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
-- Jupyter
-- Matplotlib
-- Seaborn
-- Google Colab
-- Git
-- GitHub
+The real data supports realistic, honest tasks such as:
+- high-performance classification using traffic thresholds
+- traffic regression and performance ranking
+- segmentation and exploratory SEO analysis
+- technical and content-factor comparison
 
-## Project Structure
+The dataset does not cleanly support a repeated-entity decline prediction task without constructing a pseudo-entity structure that would not be grounded in the underlying data.
+
+## Repository structure
 
 ```text
-flyrank-ai-ml-data-leakage/
+.
 ├── data/
 │   ├── raw/
-│   └── processed/
+│   ├── processed/
+│   └── archive/
 ├── notebooks/
-│   ├── 01_exploratory_data_analysis.ipynb
-│   ├── 02_baseline_model.ipynb
-│   └── 03_data_leakage_investigation.ipynb
+│   ├── 01_dataset_audit.ipynb
+│   ├── 02_exploratory_data_analysis.ipynb
+│   ├── 03_real_leakage_comparison.ipynb
+│   └── 04_findings_summary.ipynb
 ├── src/
 │   ├── data/
 │   ├── features/
@@ -71,23 +61,37 @@ flyrank-ai-ml-data-leakage/
 │   ├── evaluation/
 │   ├── utils/
 │   └── pipeline.py
-├── experiments/
-│   └── results.csv
-├── outputs/
-│   ├── figures/
-│   ├── metrics/
-│   └── predictions/
-├── docs/
-│   └── data_contract.md
 ├── tests/
+├── docs/
+├── outputs/
+├── experiments/
 ├── README.md
 ├── requirements.txt
-├── .gitignore
+├── pyproject.toml
+├── .github/
 ├── LICENSE
-└── pyproject.toml
+└── .gitignore
 ```
 
-## Installation
+## Workflow
+
+The project follows a realistic ML workflow:
+
+1. audit the dataset and check schema, missingness, duplicates, and temporal structure
+2. define valid prediction targets from the data
+3. perform exploratory analysis on traffic, CTR, rank, technical performance, and acquisition signals
+4. train time-aware baseline models
+5. compare leakage-safe and leakage-prone features
+6. document the findings honestly and clearly
+
+## Project notebooks
+
+- [notebooks/01_dataset_audit.ipynb](notebooks/01_dataset_audit.ipynb): dataset audit and data-quality checks
+- [notebooks/02_exploratory_data_analysis.ipynb](notebooks/02_exploratory_data_analysis.ipynb): SEO exploration across traffic, rank, and performance metrics
+- [notebooks/03_real_leakage_comparison.ipynb](notebooks/03_real_leakage_comparison.ipynb): safe-vs-leaky baseline comparison on the real dataset
+- [notebooks/04_findings_summary.ipynb](notebooks/04_findings_summary.ipynb): final interpretation and business conclusion
+
+## Setup
 
 ```bash
 python -m venv .venv
@@ -95,50 +99,27 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Reproduce the Project
+## Run the checks
 
 ```bash
 python -m pytest -q
-python -m src.pipeline --generate
 ```
 
-This regenerates the synthetic dataset, writes the comparison row table, and refreshes the output artifacts in `outputs/` and `experiments/`.
+## Key findings
 
-## CI
+The project’s central finding is straightforward:
 
-![Python Tests](https://github.com/Wa-codefrop/-Machine-Learning-Data-Leakage-Analysis-Category/actions/workflows/python-tests.yml/badge.svg)
+- a real SEO dataset can support a valid business-oriented ML analysis
+- the dataset should determine the target and the task
+- leakage can inflate metrics dramatically when the feature set contains outcome-adjacent or future-window information
+- a careful time-aware split and feature audit are essential for credible results
 
-## Usage
-
-```bash
-python -m src.pipeline --generate
-```
-
-Then open the notebooks in the notebooks directory using Jupyter.
-
-## Results
-
-This repository is designed to generate and compare model experiments. The experiment scores are written to `experiments/results.csv`, and the project output directory also includes a lightweight comparison artifact in `outputs/model_comparison.csv`, sample predictions in `outputs/predictions/predictions.csv`, and figure artifacts such as `outputs/figures/target_distribution.png` and `outputs/figures/confusion_matrix.png`.
-
-The repository is ready for a GitHub portfolio review. A local run of `python -m src.pipeline --generate` regenerates the synthetic dataset, writes the comparison table, and refreshes the requested output artifacts in the expected folders.
-
-## Data Leakage Findings
-
-The project is designed to demonstrate a direct leakage scenario where future-derived values such as trend_direction, trend_pct, future_clicks, and future_position are associated with the target label. These fields must be removed from the feature matrix. After removal, model behavior becomes a more honest estimate of predictive value.
+The project therefore demonstrates a portfolio-worthy lesson: strong metrics are not enough; valid task definition and leakage-safe feature engineering are what make the model trustworthy.
 
 ## Limitations
 
-This project uses a synthetic dataset. It is not a production FlyRank dataset. The dataset size is limited and the business rules are simplified for educational purposes.
+This is intentionally an educational and portfolio-focused project, not a production SEO platform. It avoids overclaiming and focuses on transparent analysis, realistic feature choices, and honest interpretation of model uncertainty.
 
-## Future Improvements
+## Current status
 
-- Use a real SEO dataset with stronger privacy review
-- Add model monitoring and drift reporting
-- Add automated retraining
-- Add an API deployment layer
-- Add a feature store and model registry
-- Add experiment tracking tools such as MLflow
-
-## Key Findings
-
-The first experiment with future-derived leakage fields can achieve unusually strong performance because those features directly encode the label definition. After removing the future feature window and enforcing prediction-time feature availability, the model becomes a more realistic and honest classifier.
+The repository is in a real-data phase, with a valid baseline flow and a leakage-aware comparison framework built around actual SEO metrics. The project remains intentionally honest about the limits of the dataset while still delivering a solid demonstration of ML workflow discipline.

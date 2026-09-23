@@ -1,1 +1,1 @@
-"""Data generation and loading utilities for the FlyRank AI project."""
+"""Data generation, loading, and validation utilities for the SEO analytics project."""
